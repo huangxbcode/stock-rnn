@@ -134,6 +134,11 @@ class LstmRNN(object):
         self.t_vars = tf.trainable_variables()
         self.saver = tf.train.Saver()
 
+        if not self.load()[0]:
+            print ("LstmRNN, Train a model first")
+        else:
+            print ("LstmRNN, load() success")
+
     def train(self, dataset_list, config):
         """
         Args:
@@ -248,8 +253,8 @@ class LstmRNN(object):
                         self.save(global_step)
 
         final_pred, final_loss = self.sess.run([self.pred, self.loss], test_data_feed)
-        print ("Step:%d [Epoch:50] [Learning rate: %.6f] final_pred:%.6f final_loss:%.6f" % (
-                            global_step, learning_rate, final_pred, final_loss))
+        print ("Step:%d [Epoch:50] [Learning rate: %.6f] final_loss:%.6f" % (
+                            global_step, learning_rate, final_loss))
 
         # Save the final model
         self.save(global_step)
